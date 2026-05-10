@@ -101,7 +101,7 @@ function ProductPage() {
           <p className="mt-6 text-muted-foreground leading-relaxed">{p.description}</p>
 
           <ul className="mt-8 space-y-3">
-            {p.features.map((f) => (
+            {p.features.map((f: string) => (
               <li key={f} className="flex items-start gap-3 text-sm">
                 <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-ice text-gold-deep">
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
@@ -129,7 +129,7 @@ function ProductPage() {
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
-            {p.specs.map((s) => (
+            {p.specs.map((s: { label: string; value: string }) => (
               <div key={s.label} className="bg-card p-4">
                 <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{s.label}</div>
                 <div className="mt-1 font-display text-lg text-charcoal">{s.value}</div>
