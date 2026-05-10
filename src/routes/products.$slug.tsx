@@ -114,12 +114,16 @@ function ProductPage() {
           </ul>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <button className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform">
+            <Link
+              to="/checkout/$slug"
+              params={{ slug: p.slug }}
+              className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform"
+            >
               Order — Cash on Delivery
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </button>
+            </Link>
             <a
               href="https://wa.me/923000000000"
               className="inline-flex items-center gap-2 px-6 py-5 rounded-full border border-border hover:border-gold text-sm font-medium transition-colors"
