@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-mini-ac.jpg";
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
+import { products, type Product } from "@/lib/products";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -198,24 +196,14 @@ function Features() {
   );
 }
 
-type Product = {
-  name: string;
-  tagline: string;
-  price: number;
-  oldPrice?: number;
-  img: string;
-  badge?: string;
-};
-
-const products: Product[] = [
-  { name: "Shahkar Cube Mini", tagline: "Compact desktop cooling", price: 3499, oldPrice: 4999, img: product1, badge: "Top Seller" },
-  { name: "Shahkar Onyx Pro",  tagline: "Bedside power cooler",  price: 5299, oldPrice: 6999, img: product2, badge: "New" },
-  { name: "Shahkar Tower One", tagline: "Room-scale freshness",  price: 7899, oldPrice: 9499, img: product3, badge: "Top Seller" },
-];
-
 function ProductCard({ p }: { p: Product }) {
+  const lowStock = p.stockLeft <= 5;
   return (
-    <article className="group relative bg-card rounded-3xl overflow-hidden border border-border/60 hover:border-gold/40 transition-all duration-500 hover:-translate-y-1.5 shadow-ice">
+    <Link
+      to="/products/$slug"
+      params={{ slug: p.slug }}
+      className="group relative bg-card rounded-3xl overflow-hidden border border-border/60 hover:border-gold/40 transition-all duration-500 hover:-translate-y-1.5 shadow-ice block"
+    >
       {p.badge && (
         <div className="absolute top-5 left-5 z-10 gradient-gold text-charcoal text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full shadow-gold">
           {p.badge}
@@ -229,6 +217,15 @@ function ProductCard({ p }: { p: Product }) {
         <h3 className="font-display text-2xl text-charcoal">{p.name}</h3>
         <p className="text-sm text-muted-foreground mt-1">{p.tagline}</p>
 
+        {lowStock && (
+          <div className="mt-3 flex items-center gap-2">
+            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-destructive">
+              Only {p.stockLeft} pieces left!
+            </span>
+          </div>
+        )}
+
         <div className="mt-5 flex items-end justify-between">
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground">Cash on Delivery</div>
@@ -237,12 +234,12 @@ function ProductCard({ p }: { p: Product }) {
               {p.oldPrice && <span className="text-sm text-muted-foreground line-through">Rs. {p.oldPrice.toLocaleString()}</span>}
             </div>
           </div>
-          <button className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-charcoal text-frost hover:bg-gold hover:text-charcoal transition-colors">
+          <span className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-charcoal text-frost group-hover:bg-gold group-hover:text-charcoal transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </button>
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
