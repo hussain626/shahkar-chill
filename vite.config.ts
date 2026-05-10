@@ -2,14 +2,13 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
-    server: { entry: "server" },
-    // This tells TanStack Start to specifically package for Netlify
-    deployment: 'netlify' 
+    // This tells TanStack to prepare files for a static host like Netlify
+    deployment: 'static' 
   },
   vite: {
-    // This ensures the build output is clean
     build: {
-      outDir: 'dist/client',
+      // This forces the output into a folder Netlify can find
+      outDir: 'dist', 
     }
   }
 });
