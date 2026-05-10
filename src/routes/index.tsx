@@ -1,19 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-mini-ac.jpg";
+import logo from "@/assets/logo.png";
 import { products, type Product } from "@/lib/products";
+import { LogOut } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Shahkar.store — Garmi ka Shahkar Hal | Premium Mini ACs Pakistan" },
+      { title: "Shahkar" },
       {
         name: "description",
         content:
-          "Premium USB-powered Mini ACs delivered across Pakistan. Low electricity, high performance. Cash on Delivery via Markaz Partner Shipping.",
+          "Premium USB-powered Mini ACs delivered across Pakistan. Low electricity, high performance. Cash on Delivery",
       },
       { property: "og:title", content: "Shahkar.store — Premium Cooling Solutions" },
       { property: "og:description", content: "Sukoon ab har jagah. USB Mini ACs, perfect for load-shedding & solar." },
+    ],
+    // Add this links array here
+    links: [
+      { rel: "icon", href: "/favicon.ico" },
+      // Optional: Add apple-touch-icon if you have a larger png
+      // { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
 });
@@ -23,7 +31,7 @@ function NoticeBar() {
     <div className="bg-charcoal text-frost text-xs sm:text-sm tracking-wide">
       <div className="mx-auto max-w-7xl px-4 py-2.5 text-center">
         <span className="opacity-90">Beat the Heat: </span>
-        <span className="font-medium">Delivery in 3–5 Days across Pakistan via Markaz Partner Shipping.</span>
+        <span className="font-medium">Delivery in 3–5 Days across Pakistan.</span>
       </div>
     </div>
   );
@@ -41,9 +49,13 @@ function Header() {
 
         <div className="text-center col-start-2">
           <a href="/" className="inline-block">
-            <span className="block font-display text-3xl sm:text-4xl text-shimmer-gold font-semibold leading-none">
-              Shahkar
-            </span>
+             <img
+              src={logo}
+              alt="Shahkar Mini AC with cool mist and ice crystals"
+              width={100}
+              height={100}
+              
+            />
             <span className="block mt-1 text-[10px] tracking-[0.4em] text-muted-foreground uppercase">
               .store
             </span>
@@ -51,7 +63,6 @@ function Header() {
         </div>
 
         <nav className="hidden md:flex gap-7 text-sm font-medium text-foreground/80 justify-end">
-          <a href="#track" className="hover:text-gold transition-colors">Track Order</a>
           <a href="#contact" className="hover:text-gold transition-colors">Contact Us</a>
         </nav>
       </div>
@@ -306,9 +317,9 @@ function Footer() {
         <div>
           <h4 className="text-sm uppercase tracking-widest text-gold mb-4">Contact</h4>
           <ul className="space-y-2 text-sm text-frost/70">
-            <li>WhatsApp: 0300-0000000</li>
-            <li>care@shahkar.store</li>
-            <li>Markaz Partner Shipping</li>
+            <li>WhatsApp: 03332468178</li>
+            <li>shahkar@gmail.com</li>
+            <li></li>
           </ul>
         </div>
       </div>
