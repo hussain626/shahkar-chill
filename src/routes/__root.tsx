@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Shahkar" },
+      { name: "description", content: "Shahkar.store offers premium, USB-powered mini ACs for instant cooling and a comfortable environment." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Shahkar" },
+      { property: "og:description", content: "Shahkar.store offers premium, USB-powered mini ACs for instant cooling and a comfortable environment." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Shahkar" },
+      { name: "twitter:description", content: "Shahkar.store offers premium, USB-powered mini ACs for instant cooling and a comfortable environment." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2df6bcd0-0b9d-4755-b343-3f0de0918e53/id-preview-038cfcf6--33f12f09-9c7c-425a-9669-4656c44e2268.lovable.app-1778437138299.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2df6bcd0-0b9d-4755-b343-3f0de0918e53/id-preview-038cfcf6--33f12f09-9c7c-425a-9669-4656c44e2268.lovable.app-1778437138299.png" },
     ],
     links: [
       {
