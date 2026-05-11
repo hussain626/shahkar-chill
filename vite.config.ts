@@ -1,9 +1,12 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Disable the Cloudflare Worker build so the standard SSR/prerender pipeline runs.
+  // We deploy the SPA shell to Netlify as static files.
+  cloudflare: false,
   tanstackStart: {
-    // Build a pure SPA: prerender a single index.html shell that hydrates on the client.
-    // Netlify serves dist/index.html for every route via the SPA redirect in netlify.toml.
+    // Pure SPA: prerender a single index.html shell that hydrates on the client.
+    // Netlify's SPA redirect (netlify.toml) serves it for every route.
     spa: {
       enabled: true,
       maskPath: "/",
