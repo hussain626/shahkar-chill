@@ -124,11 +124,11 @@ function CheckoutPage() {
               </div>
             </section>
 
-            <section className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
               <h2 className="font-display text-2xl text-charcoal">Payment Method</h2>
-              <div className="mt-4 flex items-start gap-4 p-5 rounded-2xl border-2 border-gold bg-gold/5">
-                <div className="h-10 w-10 rounded-full bg-gold flex items-center justify-center text-charcoal font-bold">₨</div>
-                <div>
+              <div className="mt-4 flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border-2 border-gold bg-gold/5">
+                <div className="h-10 w-10 rounded-full bg-gold flex items-center justify-center text-charcoal font-bold flex-shrink-0">₨</div>
+                <div className="min-w-0">
                   <div className="font-semibold text-charcoal">Cash on Delivery</div>
                   <p className="text-sm text-muted-foreground mt-1">
                     Pay Rs. {total.toLocaleString()} in cash upon delivery.
@@ -138,8 +138,8 @@ function CheckoutPage() {
             </section>
           </div>
 
-          <aside className="lg:sticky lg:top-6 self-start space-y-6">
-            <section className="bg-card border border-border/60 rounded-3xl p-6 shadow-sm">
+          <aside className="lg:sticky lg:top-6 self-start space-y-6 min-w-0">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm">
               <h2 className="font-display text-xl text-charcoal">Order Summary</h2>
 
               <div className="mt-5 flex gap-4">
