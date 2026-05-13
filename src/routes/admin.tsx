@@ -399,6 +399,3 @@ function computeRange(range: Range, customFrom: string, customTo: string): { fro
   const to = customTo ? new Date(customTo + 'T23:59:59').getTime() : endOfToday;
   return { from, to };
 }
-    </div>
-  );
-}
