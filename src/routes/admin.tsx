@@ -52,7 +52,7 @@ export const Route = createFileRoute("/admin")({
 function AdminPanel() {
   const [orders, setOrders] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState<'current' | 'delivered'>('current');
+  const [activeTab, setActiveTab] = useState<'current' | 'delivered' | 'finances'>('current');
   
   // Separate loading states
   const [isPageLoading, setIsPageLoading] = useState(true);
