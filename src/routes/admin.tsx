@@ -171,10 +171,17 @@ function AdminPanel() {
               <button onClick={() => setActiveTab('delivered')} className={`pb-2 text-sm font-bold transition-all ${activeTab === 'delivered' ? 'border-b-2 border-[#A68B4C] text-[#A68B4C]' : 'text-slate-400'}`}>
                 Delivered ({deliveredOrders.length})
               </button>
+              <button onClick={() => setActiveTab('finances')} className={`pb-2 text-sm font-bold transition-all ${activeTab === 'finances' ? 'border-b-2 border-emerald-600 text-emerald-600' : 'text-slate-400'}`}>
+                Finances
+              </button>
             </div>
           </div>
           <button onClick={() => supabase.auth.signOut().then(() => setUser(null))} className="px-4 py-2 text-xs font-bold uppercase border border-slate-300 rounded-lg hover:bg-slate-900 hover:text-white transition-colors">Logout</button>
         </div>
+
+        {activeTab === 'finances' ? (
+          <FinancesPanel orders={deliveredOrders} />
+        ) : (
 
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
           <table className="w-full text-left">
