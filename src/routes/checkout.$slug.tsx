@@ -96,14 +96,14 @@ function CheckoutPage() {
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-50" />
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
         <p className="text-xs tracking-[0.3em] uppercase text-gold font-medium">Step 1 of 1</p>
-        <h1 className="mt-3 font-display text-4xl sm:text-5xl text-charcoal">Complete your order</h1>
-        <p className="mt-2 text-muted-foreground">Pay in cash when our courier delivers — no card needed.</p>
+        <h1 className="mt-3 font-display text-3xl sm:text-5xl text-charcoal">Complete your order</h1>
+        <p className="mt-2 text-sm sm:text-base text-muted-foreground">Pay in cash when our courier delivers — no card needed.</p>
 
-        <form onSubmit={handleSubmit} className="mt-10 grid lg:grid-cols-[1fr_400px] gap-10">
-          <div className="space-y-8">
-            <section className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="mt-8 sm:mt-10 grid lg:grid-cols-[1fr_400px] gap-6 lg:gap-10">
+          <div className="space-y-6 sm:space-y-8 min-w-0">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
               <h2 className="font-display text-2xl text-charcoal">Delivery Details</h2>
               <div className="mt-6 grid sm:grid-cols-2 gap-4">
                 <Field label="Full Name" required>
