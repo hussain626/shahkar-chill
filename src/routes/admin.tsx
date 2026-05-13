@@ -6,6 +6,36 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+function normalizePhone(raw: string): string {
+  const digits = (raw || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("92")) return digits;
+  if (digits.startsWith("0")) return "92" + digits.slice(1);
+  return "92" + digits;
+}
+
+function buildWhatsAppLink(order: any): string {
+  const phone = normalizePhone(order.customer_phone || "");
+  const qty = order.quantity || 1;
+  const price = order.price_at_purchase || 0;
+  const total = price * qty + 250;
+  const productUrl = `https://shahkar.store/products/${order.product_slug}`;
+  const message = `Assalam-o-Alaikum! 👋
+
+Shahkar Store se baat kar rahay hain. Apka order receive ho gya hai!
+
+Order ID: #${order.id}
+
+Product: ${order.product_name} ❄️
+
+Total: Rs. ${total.toLocaleString()} (incl. delivery)
+
+View Product: ${productUrl}
+
+Confirm karne ke liye 'YES' likh kar bhejain ya reply karein. Delivery 3-5 days mein hogi. Shukriya!`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
 export const Route = createFileRoute("/admin")({
   component: AdminPanel,
 });
