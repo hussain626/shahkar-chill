@@ -1,10 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createClient } from '@supabase/supabase-js';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Wholesale cost (PKR) per product slug — edit these to match your real costs
+const WHOLESALE_COSTS: Record<string, number> = {
+  "onyx-pro": 2669,    // Arctic Air 2.0
+  "cube-mini": 2669,   // TODO: update
+  "tower-one": 1800,   // TODO: update
+};
+const SHIPPING_FEE = 250;
 
 function normalizePhone(raw: string): string {
   const digits = (raw || "").replace(/\D/g, "");
