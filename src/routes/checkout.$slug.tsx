@@ -96,14 +96,14 @@ function CheckoutPage() {
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-50" />
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
         <p className="text-xs tracking-[0.3em] uppercase text-gold font-medium">Step 1 of 1</p>
-        <h1 className="mt-3 font-display text-4xl sm:text-5xl text-charcoal">Complete your order</h1>
-        <p className="mt-2 text-muted-foreground">Pay in cash when our courier delivers — no card needed.</p>
+        <h1 className="mt-3 font-display text-3xl sm:text-5xl text-charcoal">Complete your order</h1>
+        <p className="mt-2 text-sm sm:text-base text-muted-foreground">Pay in cash when our courier delivers — no card needed.</p>
 
-        <form onSubmit={handleSubmit} className="mt-10 grid lg:grid-cols-[1fr_400px] gap-10">
-          <div className="space-y-8">
-            <section className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm">
+        <form onSubmit={handleSubmit} className="mt-8 sm:mt-10 grid lg:grid-cols-[1fr_400px] gap-6 lg:gap-10">
+          <div className="space-y-6 sm:space-y-8 min-w-0">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
               <h2 className="font-display text-2xl text-charcoal">Delivery Details</h2>
               <div className="mt-6 grid sm:grid-cols-2 gap-4">
                 <Field label="Full Name" required>
@@ -124,11 +124,11 @@ function CheckoutPage() {
               </div>
             </section>
 
-            <section className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
               <h2 className="font-display text-2xl text-charcoal">Payment Method</h2>
-              <div className="mt-4 flex items-start gap-4 p-5 rounded-2xl border-2 border-gold bg-gold/5">
-                <div className="h-10 w-10 rounded-full bg-gold flex items-center justify-center text-charcoal font-bold">₨</div>
-                <div>
+              <div className="mt-4 flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border-2 border-gold bg-gold/5">
+                <div className="h-10 w-10 rounded-full bg-gold flex items-center justify-center text-charcoal font-bold flex-shrink-0">₨</div>
+                <div className="min-w-0">
                   <div className="font-semibold text-charcoal">Cash on Delivery</div>
                   <p className="text-sm text-muted-foreground mt-1">
                     Pay Rs. {total.toLocaleString()} in cash upon delivery.
@@ -138,8 +138,8 @@ function CheckoutPage() {
             </section>
           </div>
 
-          <aside className="lg:sticky lg:top-6 self-start space-y-6">
-            <section className="bg-card border border-border/60 rounded-3xl p-6 shadow-sm">
+          <aside className="lg:sticky lg:top-6 self-start space-y-6 min-w-0">
+            <section className="bg-card border border-border/60 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm">
               <h2 className="font-display text-xl text-charcoal">Order Summary</h2>
 
               <div className="mt-5 flex gap-4">
