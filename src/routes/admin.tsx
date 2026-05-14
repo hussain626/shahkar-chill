@@ -297,10 +297,25 @@ function FinancesPanel({ orders }: { orders: any[] }) {
       .map(([date, revenue]) => ({ date: date.slice(5), revenue }));
   }, [rows]);
 
+  const periodLabel = range === 'today' ? 'Today'
+    : range === '7d' ? 'Last 7 days'
+    : range === 'month' ? 'This month'
+    : `${customFrom || '—'} to ${customTo || '—'}`;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: 'Inter, Arial, sans-serif' }}>
+      {/* Print-only report header */}
+      <div className="print-only text-center mb-6 pb-4 border-b-2 border-slate-900">
+        <div className="text-3xl font-extrabold tracking-tight text-slate-900">SHAHKAR</div>
+        <div className="text-xs uppercase tracking-[0.3em] text-slate-500 mt-1">shahkar.store</div>
+        <div className="mt-3 text-lg font-bold text-slate-900">Official Sales Report</div>
+        <div className="text-xs text-slate-600 mt-1">
+          Generated: {new Date().toLocaleString()} &nbsp;•&nbsp; Period: {periodLabel}
+        </div>
+      </div>
+
       {/* Filter bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-wrap items-center gap-3 shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-wrap items-center gap-3 shadow-sm no-print">
         <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mr-2">Period</span>
         {([['today','Today'],['7d','Last 7 days'],['month','This month'],['custom','Custom']] as [Range,string][]).map(([k,label]) => (
           <button key={k} onClick={() => setRange(k)} className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${range===k ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{label}</button>
@@ -317,17 +332,24 @@ function FinancesPanel({ orders }: { orders: any[] }) {
           <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Daily Ad Spend (Rs.)</span>
           <input type="number" min={0} value={adSpend} onChange={e => setAdSpend(Number(e.target.value) || 0)} className="w-24 px-2 py-1.5 text-xs border border-slate-200 rounded-lg" />
         </label>
+        <button
+          onClick={() => window.print()}
+          className="ml-2 inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Download / Print Report
+        </button>
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 no-print">
         <StatCard label="Total Revenue" value={`Rs. ${totalRevenue.toLocaleString()}`} accent="slate" />
         <StatCard label="Total Profit" value={`Rs. ${totalProfit.toLocaleString()}`} accent="emerald" sub={`Net after ads: Rs. ${netProfit.toLocaleString()}`} />
         <StatCard label="Orders" value={String(orderCount)} accent="amber" sub={`${daysSpan} day${daysSpan>1?'s':''} • Ads: Rs. ${totalAdSpend.toLocaleString()}`} />
       </div>
 
       {/* Chart */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm no-print">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-bold text-slate-900">Revenue over time</h2>
           <span className="text-[10px] uppercase tracking-widest text-slate-400">PKR</span>
@@ -350,31 +372,53 @@ function FinancesPanel({ orders }: { orders: any[] }) {
       </div>
 
       {/* Orders table */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden print:rounded-none print:shadow-none print:border-slate-400">
         <table className="w-full text-left">
-          <thead className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-widest text-slate-400">
+          <thead className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-widest text-slate-400 print:bg-white print:text-slate-900 print:border-slate-900">
             <tr>
-              <th className="p-5">Date</th>
-              <th className="p-5">Order ID</th>
-              <th className="p-5">Product</th>
-              <th className="p-5 text-right">Sale Price</th>
-              <th className="p-5 text-right">Profit</th>
+              <th className="p-5 print:p-2 print:text-[11px]">Date</th>
+              <th className="p-5 print:p-2 print:text-[11px]">Product</th>
+              <th className="p-5 text-right print:p-2 print:text-[11px]">Sale Price</th>
+              <th className="p-5 text-right print:p-2 print:text-[11px]">Profit</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 print:divide-slate-300">
             {rows.length === 0 ? (
-              <tr><td colSpan={5} className="p-10 text-center text-slate-400">No delivered orders in this range.</td></tr>
+              <tr><td colSpan={4} className="p-10 text-center text-slate-400">No delivered orders in this range.</td></tr>
             ) : rows.map(r => (
               <tr key={r.id}>
-                <td className="p-5 text-sm text-slate-600">{new Date(r.created_at).toLocaleDateString()}</td>
-                <td className="p-5 text-xs font-mono text-slate-500">#{r.id}</td>
-                <td className="p-5 text-sm font-medium text-slate-900">{r.product_name} <span className="text-slate-400">×{r.quantity}</span></td>
-                <td className="p-5 text-right text-sm text-slate-900">Rs. {r.sale.toLocaleString()}</td>
-                <td className={`p-5 text-right text-sm font-bold ${r.profit >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>Rs. {r.profit.toLocaleString()}</td>
+                <td className="p-5 text-sm text-slate-600 print:p-2 print:text-[11px] print:text-black">{new Date(r.created_at).toLocaleDateString()}</td>
+                <td className="p-5 text-sm font-medium text-slate-900 print:p-2 print:text-[11px]">{r.product_name} <span className="text-slate-400">×{r.quantity}</span></td>
+                <td className="p-5 text-right text-sm text-slate-900 print:p-2 print:text-[11px]">Rs. {r.sale.toLocaleString()}</td>
+                <td className={`p-5 text-right text-sm font-bold print:p-2 print:text-[11px] ${r.profit >= 0 ? 'text-emerald-600 print:text-black' : 'text-red-500 print:text-black'}`}>Rs. {r.profit.toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Summary section */}
+        <div className="border-t-2 border-slate-900 bg-slate-50 print:bg-white px-5 py-4 print:px-2 print:py-3">
+          <div className="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2">Summary</div>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <div className="text-xs text-slate-500">Total Orders</div>
+              <div className="text-lg font-extrabold text-slate-900">{orderCount}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-500">Total Revenue</div>
+              <div className="text-lg font-extrabold text-slate-900">Rs. {totalRevenue.toLocaleString()}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-500">Total Profit</div>
+              <div className="text-lg font-extrabold text-emerald-600 print:text-black">Rs. {totalProfit.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Print-only footer */}
+      <div className="print-only text-center text-[10px] text-slate-500 mt-6 pt-3 border-t border-slate-300">
+        © {new Date().getFullYear()} Shahkar.store — Confidential Sales Report
       </div>
     </div>
   );
