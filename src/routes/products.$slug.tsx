@@ -124,12 +124,6 @@ function ProductPage() {
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <a
-              href="https://wa.me/923000000000"
-              className="inline-flex items-center gap-2 px-6 py-5 rounded-full border border-border hover:border-gold text-sm font-medium transition-colors"
-            >
-              WhatsApp Order
-            </a>
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
