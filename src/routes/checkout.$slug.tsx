@@ -39,7 +39,7 @@ function CheckoutPage() {
   });
 
   const subtotal = product.price * qty;
-  const shipping = 250;
+  const shipping = 190;
   const total = subtotal + shipping;
 
   const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>

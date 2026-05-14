@@ -13,7 +13,7 @@ const WHOLESALE_COSTS: Record<string, number> = {
   "cube-mini": 2669,   // TODO: update
   "tower-one": 1800,   // TODO: update
 };
-const SHIPPING_FEE = 250;
+const SHIPPING_FEE = 190;
 
 function normalizePhone(raw: string): string {
   const digits = (raw || "").replace(/\D/g, "");
@@ -27,7 +27,7 @@ function buildWhatsAppLink(order: any): string {
   const phone = normalizePhone(order.customer_phone || "");
   const qty = order.quantity || 1;
   const price = order.price_at_purchase || 0;
-  const total = price * qty + 250;
+  const total = price * qty + 190;
   const productUrl = `https://shahkar.store/products/${order.product_slug}`;
   const message = `Assalam-o-Alaikum! 👋
 
