@@ -159,9 +159,18 @@ function AdminPanel() {
 
   // 3. Main Dashboard
   return (
-    <div className="p-4 sm:p-8 bg-slate-50 min-h-screen">
+    <div className="p-4 sm:p-8 bg-slate-50 min-h-screen print:p-0 print:bg-white">
+      <style>{`
+        @media print {
+          .no-print { display: none !important; }
+          .print-only { display: block !important; }
+          body { background: white !important; }
+          @page { margin: 14mm; }
+        }
+        .print-only { display: none; }
+      `}</style>
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-8">
+        <div className="flex justify-between items-end mb-8 no-print">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Order Manager</h1>
             <div className="flex gap-6 mt-4">
