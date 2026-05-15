@@ -125,9 +125,9 @@ function CheckoutPage() {
               <div className="mt-4 flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border-2 border-gold bg-gold/5">
                 <div className="h-10 w-10 rounded-full bg-gold flex items-center justify-center text-charcoal font-bold flex-shrink-0">₨</div>
                 <div className="min-w-0">
-                  <div className="font-semibold text-charcoal">Cash on Delivery</div>
+                  <div className="font-semibold text-charcoal">Pay on Delivery</div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Pay Rs. {total.toLocaleString()} in cash upon delivery.
+                    Pay Rs. {total.toLocaleString()} in cash when your order arrives.
                   </p>
                 </div>
               </div>
