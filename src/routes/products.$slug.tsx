@@ -86,7 +86,7 @@ function ProductPage() {
             </span>
           </div>
 
-          <div className="mt-6 flex items-baseline gap-3">
+          <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-2">
             <span className="font-display text-4xl text-charcoal">Rs. {p.price.toLocaleString()}</span>
             {p.oldPrice && (
               <span className="text-lg text-muted-foreground line-through">Rs. {p.oldPrice.toLocaleString()}</span>
@@ -96,6 +96,9 @@ function ProductPage() {
                 Save Rs. {(p.oldPrice - p.price).toLocaleString()}
               </span>
             )}
+            <span className="text-xs font-semibold uppercase tracking-wider text-gold-deep bg-gold/10 border border-gold/30 px-3 py-1 rounded-full">
+              Includes Delivery/Shipping
+            </span>
           </div>
 
           <p className="mt-6 text-muted-foreground leading-relaxed">{p.description}</p>
@@ -113,17 +116,24 @@ function ProductPage() {
             ))}
           </ul>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap gap-4 items-center">
             <Link
               to="/checkout/$slug"
               params={{ slug: p.slug }}
               className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform"
             >
-              Order — Cash on Delivery
+              Order Now - Pay on Delivery
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold-deep bg-ice border border-gold/20 px-4 py-2.5 rounded-full">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-gold-deep flex-shrink-0">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+              Stock Available in Karachi — Fast 24-Hour Delivery
+            </div>
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
