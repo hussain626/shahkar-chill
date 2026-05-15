@@ -296,6 +296,153 @@ function AdminPanel() {
         </div>
         )}
       </div>
+
+      {editingOrder && (
+        <EditOrderSheet
+          order={editingOrder}
+          onClose={() => setEditingOrder(null)}
+          onSave={saveEdit}
+          saving={isActionLoading}
+        />
+      )}
+
+      {deletingOrder && (
+        <ConfirmDeleteModal
+          order={deletingOrder}
+          onCancel={() => setDeletingOrder(null)}
+          onConfirm={confirmDelete}
+          deleting={isActionLoading}
+        />
+      )}
+
+      <Toaster />
+    </div>
+  );
+}
+
+function EditOrderSheet({ order, onClose, onSave, saving }: { order: any; onClose: () => void; onSave: (o: any) => void; saving: boolean }) {
+  const [form, setForm] = useState({
+    customer_full_name: order.customer_full_name ?? '',
+    customer_phone: order.customer_phone ?? '',
+    customer_city: order.customer_city ?? '',
+    customer_address: order.customer_address ?? '',
+    product_name: order.product_name ?? '',
+    product_slug: order.product_slug ?? '',
+    quantity: order.quantity ?? 1,
+    price_at_purchase: order.price_at_purchase ?? 0,
+    admin_status: order.admin_status ?? 'new',
+  });
+
+  const set = (k: string, v: any) => setForm(f => ({ ...f, [k]: v }));
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({
+      id: order.id,
+      ...form,
+      quantity: Number(form.quantity) || 1,
+      price_at_purchase: Number(form.price_at_purchase) || 0,
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 no-print">
+      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-in fade-in" onClick={onClose} />
+      <aside className="absolute right-0 top-0 h-full w-full sm:max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-200">
+        <header className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Edit Order</div>
+            <div className="text-sm font-mono text-slate-600 mt-0.5">#{String(order.id).slice(0, 8)}</div>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-slate-100 text-slate-500"><X className="w-4 h-4" /></button>
+        </header>
+
+        <form onSubmit={submit} className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+          <Field label="Status">
+            <select value={form.admin_status} onChange={e => set('admin_status', e.target.value)} className="sheet-input">
+              <option value="new">New</option>
+              <option value="placed_on_markaz">Placed on Markaz</option>
+              <option value="delivered">Delivered</option>
+            </select>
+          </Field>
+
+          <Field label="Customer Name">
+            <input value={form.customer_full_name} onChange={e => set('customer_full_name', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Customer Phone">
+            <input value={form.customer_phone} onChange={e => set('customer_phone', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="City">
+            <input value={form.customer_city} onChange={e => set('customer_city', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Address">
+            <textarea value={form.customer_address} onChange={e => set('customer_address', e.target.value)} rows={2} className="sheet-input resize-none" />
+          </Field>
+
+          <Field label="Product Name">
+            <input value={form.product_name} onChange={e => set('product_name', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Product Slug">
+            <input value={form.product_slug} onChange={e => set('product_slug', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Quantity">
+              <input type="number" min={1} value={form.quantity} onChange={e => set('quantity', e.target.value)} className="sheet-input" />
+            </Field>
+            <Field label="Unit Price">
+              <input type="number" min={0} value={form.price_at_purchase} onChange={e => set('price_at_purchase', e.target.value)} className="sheet-input" />
+            </Field>
+          </div>
+
+          <style>{`.sheet-input{width:100%;padding:0.625rem 0.875rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:0.625rem;font-size:0.875rem;outline:none;transition:all .15s}.sheet-input:focus{border-color:#A68B4C;box-shadow:0 0 0 3px rgba(166,139,76,.15);background:white}`}</style>
+        </form>
+
+        <footer className="px-6 py-4 border-t border-slate-100 flex gap-3">
+          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">Cancel</button>
+          <button type="button" disabled={saving} onClick={submit} className="flex-1 py-2.5 text-sm font-bold text-white bg-slate-900 rounded-lg hover:bg-slate-800 disabled:opacity-50">
+            {saving ? 'Saving...' : 'Save Changes'}
+          </button>
+        </footer>
+      </aside>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1.5">{label}</div>
+      {children}
+    </label>
+  );
+}
+
+function ConfirmDeleteModal({ order, onCancel, onConfirm, deleting }: { order: any; onCancel: () => void; onConfirm: () => void; deleting: boolean }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 no-print">
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onCancel} />
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in zoom-in-95 duration-150">
+        <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4 mx-auto">
+          <Trash2 className="w-6 h-6 text-red-600" />
+        </div>
+        <h3 className="text-center text-lg font-bold text-slate-900">Delete this order?</h3>
+        <p className="text-center text-sm text-slate-500 mt-2">
+          <span className="font-medium text-slate-700">{order.customer_full_name}</span> — {order.product_name}
+          <br />
+          This action cannot be undone.
+        </p>
+        <div className="flex gap-3 mt-6">
+          <button onClick={onCancel} className="flex-1 py-2.5 text-sm font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">Cancel</button>
+          <button onClick={onConfirm} disabled={deleting} className="flex-1 py-2.5 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50">
+            {deleting ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
