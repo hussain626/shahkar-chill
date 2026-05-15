@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from '@supabase/supabase-js';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { Pencil, Trash2, X } from "lucide-react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -53,7 +56,9 @@ function AdminPanel() {
   const [orders, setOrders] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'current' | 'delivered' | 'finances'>('current');
-  
+  const [editingOrder, setEditingOrder] = useState<any | null>(null);
+  const [deletingOrder, setDeletingOrder] = useState<any | null>(null);
+
   // Separate loading states
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
@@ -98,6 +103,34 @@ function AdminPanel() {
     
     if (!error) await fetchOrders();
     setIsActionLoading(false);
+  }
+
+  async function saveEdit(updated: any) {
+    setIsActionLoading(true);
+    const { id, created_at, ...payload } = updated;
+    const { error } = await supabase.from("orders").update(payload).eq("id", id);
+    setIsActionLoading(false);
+    if (error) {
+      toast.error("Update failed", { description: error.message });
+      return;
+    }
+    toast.success("Order updated");
+    setEditingOrder(null);
+    await fetchOrders();
+  }
+
+  async function confirmDelete() {
+    if (!deletingOrder) return;
+    setIsActionLoading(true);
+    const { error } = await supabase.from("orders").delete().eq("id", deletingOrder.id);
+    setIsActionLoading(false);
+    if (error) {
+      toast.error("Delete failed", { description: error.message });
+      return;
+    }
+    setOrders(prev => prev.filter(o => o.id !== deletingOrder.id));
+    toast.success("Order deleted");
+    setDeletingOrder(null);
   }
 
   // Check auth on mount
@@ -239,6 +272,22 @@ function AdminPanel() {
                         <button disabled={isActionLoading} onClick={() => updateStatus(order.id, 'delivered')} className="text-[10px] bg-slate-800 text-white px-3 py-1 rounded-md disabled:opacity-50">Delivered</button>
                       </>
                     )}
+                    <button
+                      onClick={() => setEditingOrder(order)}
+                      title="Edit order"
+                      className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    {activeTab === 'current' && (
+                      <button
+                        onClick={() => setDeletingOrder(order)}
+                        title="Delete order"
+                        className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -246,6 +295,153 @@ function AdminPanel() {
           </table>
         </div>
         )}
+      </div>
+
+      {editingOrder && (
+        <EditOrderSheet
+          order={editingOrder}
+          onClose={() => setEditingOrder(null)}
+          onSave={saveEdit}
+          saving={isActionLoading}
+        />
+      )}
+
+      {deletingOrder && (
+        <ConfirmDeleteModal
+          order={deletingOrder}
+          onCancel={() => setDeletingOrder(null)}
+          onConfirm={confirmDelete}
+          deleting={isActionLoading}
+        />
+      )}
+
+      <Toaster />
+    </div>
+  );
+}
+
+function EditOrderSheet({ order, onClose, onSave, saving }: { order: any; onClose: () => void; onSave: (o: any) => void; saving: boolean }) {
+  const [form, setForm] = useState({
+    customer_full_name: order.customer_full_name ?? '',
+    customer_phone: order.customer_phone ?? '',
+    customer_city: order.customer_city ?? '',
+    customer_address: order.customer_address ?? '',
+    product_name: order.product_name ?? '',
+    product_slug: order.product_slug ?? '',
+    quantity: order.quantity ?? 1,
+    price_at_purchase: order.price_at_purchase ?? 0,
+    admin_status: order.admin_status ?? 'new',
+  });
+
+  const set = (k: string, v: any) => setForm(f => ({ ...f, [k]: v }));
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({
+      id: order.id,
+      ...form,
+      quantity: Number(form.quantity) || 1,
+      price_at_purchase: Number(form.price_at_purchase) || 0,
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 no-print">
+      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-in fade-in" onClick={onClose} />
+      <aside className="absolute right-0 top-0 h-full w-full sm:max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-200">
+        <header className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Edit Order</div>
+            <div className="text-sm font-mono text-slate-600 mt-0.5">#{String(order.id).slice(0, 8)}</div>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-slate-100 text-slate-500"><X className="w-4 h-4" /></button>
+        </header>
+
+        <form onSubmit={submit} className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+          <Field label="Status">
+            <select value={form.admin_status} onChange={e => set('admin_status', e.target.value)} className="sheet-input">
+              <option value="new">New</option>
+              <option value="placed_on_markaz">Placed on Markaz</option>
+              <option value="delivered">Delivered</option>
+            </select>
+          </Field>
+
+          <Field label="Customer Name">
+            <input value={form.customer_full_name} onChange={e => set('customer_full_name', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Customer Phone">
+            <input value={form.customer_phone} onChange={e => set('customer_phone', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="City">
+            <input value={form.customer_city} onChange={e => set('customer_city', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Address">
+            <textarea value={form.customer_address} onChange={e => set('customer_address', e.target.value)} rows={2} className="sheet-input resize-none" />
+          </Field>
+
+          <Field label="Product Name">
+            <input value={form.product_name} onChange={e => set('product_name', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <Field label="Product Slug">
+            <input value={form.product_slug} onChange={e => set('product_slug', e.target.value)} className="sheet-input" />
+          </Field>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Quantity">
+              <input type="number" min={1} value={form.quantity} onChange={e => set('quantity', e.target.value)} className="sheet-input" />
+            </Field>
+            <Field label="Unit Price">
+              <input type="number" min={0} value={form.price_at_purchase} onChange={e => set('price_at_purchase', e.target.value)} className="sheet-input" />
+            </Field>
+          </div>
+
+          <style>{`.sheet-input{width:100%;padding:0.625rem 0.875rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:0.625rem;font-size:0.875rem;outline:none;transition:all .15s}.sheet-input:focus{border-color:#A68B4C;box-shadow:0 0 0 3px rgba(166,139,76,.15);background:white}`}</style>
+        </form>
+
+        <footer className="px-6 py-4 border-t border-slate-100 flex gap-3">
+          <button type="button" onClick={onClose} className="flex-1 py-2.5 text-sm font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">Cancel</button>
+          <button type="button" disabled={saving} onClick={submit} className="flex-1 py-2.5 text-sm font-bold text-white bg-slate-900 rounded-lg hover:bg-slate-800 disabled:opacity-50">
+            {saving ? 'Saving...' : 'Save Changes'}
+          </button>
+        </footer>
+      </aside>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1.5">{label}</div>
+      {children}
+    </label>
+  );
+}
+
+function ConfirmDeleteModal({ order, onCancel, onConfirm, deleting }: { order: any; onCancel: () => void; onConfirm: () => void; deleting: boolean }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 no-print">
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onCancel} />
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in zoom-in-95 duration-150">
+        <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4 mx-auto">
+          <Trash2 className="w-6 h-6 text-red-600" />
+        </div>
+        <h3 className="text-center text-lg font-bold text-slate-900">Delete this order?</h3>
+        <p className="text-center text-sm text-slate-500 mt-2">
+          <span className="font-medium text-slate-700">{order.customer_full_name}</span> — {order.product_name}
+          <br />
+          This action cannot be undone.
+        </p>
+        <div className="flex gap-3 mt-6">
+          <button onClick={onCancel} className="flex-1 py-2.5 text-sm font-bold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">Cancel</button>
+          <button onClick={onConfirm} disabled={deleting} className="flex-1 py-2.5 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50">
+            {deleting ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
       </div>
     </div>
   );
