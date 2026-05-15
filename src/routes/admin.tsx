@@ -105,6 +105,34 @@ function AdminPanel() {
     setIsActionLoading(false);
   }
 
+  async function saveEdit(updated: any) {
+    setIsActionLoading(true);
+    const { id, created_at, ...payload } = updated;
+    const { error } = await supabase.from("orders").update(payload).eq("id", id);
+    setIsActionLoading(false);
+    if (error) {
+      toast.error("Update failed", { description: error.message });
+      return;
+    }
+    toast.success("Order updated");
+    setEditingOrder(null);
+    await fetchOrders();
+  }
+
+  async function confirmDelete() {
+    if (!deletingOrder) return;
+    setIsActionLoading(true);
+    const { error } = await supabase.from("orders").delete().eq("id", deletingOrder.id);
+    setIsActionLoading(false);
+    if (error) {
+      toast.error("Delete failed", { description: error.message });
+      return;
+    }
+    setOrders(prev => prev.filter(o => o.id !== deletingOrder.id));
+    toast.success("Order deleted");
+    setDeletingOrder(null);
+  }
+
   // Check auth on mount
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
