@@ -21,7 +21,7 @@ export const products: Product[] = [
     slug: "cube-mini",
     name: "Shahkar Portable Mini Air Cooler White ABS 2X Pro",
     tagline: "Premium desktop mist cooling",
-    price: 3690,
+    price: 3499,
     oldPrice: 4999,
     img: product1,
     badge: "Top Seller",
