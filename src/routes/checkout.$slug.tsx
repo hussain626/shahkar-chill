@@ -117,9 +117,6 @@ function CheckoutPage() {
                 <Field label="Complete Address" required className="sm:col-span-2">
                   <input required value={form.address} onChange={update("address")} className={inputClass} placeholder="House #, Street, Area" />
                 </Field>
-                <Field label="Order Notes (Optional)" className="sm:col-span-2">
-                  <textarea value={form.notes} onChange={update("notes")} rows={3} className={inputClass} placeholder="Landmark, instructions..." />
-                </Field>
               </div>
             </section>
 
