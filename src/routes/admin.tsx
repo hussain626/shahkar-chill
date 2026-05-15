@@ -56,7 +56,9 @@ function AdminPanel() {
   const [orders, setOrders] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'current' | 'delivered' | 'finances'>('current');
-  
+  const [editingOrder, setEditingOrder] = useState<any | null>(null);
+  const [deletingOrder, setDeletingOrder] = useState<any | null>(null);
+
   // Separate loading states
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
