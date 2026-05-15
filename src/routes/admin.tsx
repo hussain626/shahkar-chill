@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from '@supabase/supabase-js';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { Pencil, Trash2, X } from "lucide-react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
