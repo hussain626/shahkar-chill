@@ -272,6 +272,22 @@ function AdminPanel() {
                         <button disabled={isActionLoading} onClick={() => updateStatus(order.id, 'delivered')} className="text-[10px] bg-slate-800 text-white px-3 py-1 rounded-md disabled:opacity-50">Delivered</button>
                       </>
                     )}
+                    <button
+                      onClick={() => setEditingOrder(order)}
+                      title="Edit order"
+                      className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    {activeTab === 'current' && (
+                      <button
+                        onClick={() => setDeletingOrder(order)}
+                        title="Delete order"
+                        className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
