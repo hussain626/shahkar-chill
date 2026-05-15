@@ -62,7 +62,7 @@ function CheckoutPage() {
         customer_phone: form.phone,
         customer_city: form.city,
         customer_address: form.address,
-        customer_notes: form.notes
+        customer_notes: ""
       }]);
 
     if (error) {
