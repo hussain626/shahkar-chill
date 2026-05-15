@@ -35,7 +35,6 @@ function CheckoutPage() {
     phone: "",
     address: "",
     city: "",
-    notes: "",
   });
 
   const subtotal = product.price * qty;
