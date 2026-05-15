@@ -155,19 +155,27 @@ function CheckoutPage() {
 
               <div className="mt-6 space-y-2 text-sm border-t border-border pt-4">
                 <Row label="Subtotal" value={`Rs. ${subtotal.toLocaleString()}`} />
-                <Row label="Shipping" value={`Rs. ${shipping}`} />
+                <Row label="Shipping" value="Included" />
                 <div className="border-t border-border pt-3 flex justify-between items-baseline">
                   <span className="font-display text-lg">Total</span>
                   <span className="font-display text-2xl text-charcoal font-bold">Rs. {total.toLocaleString()}</span>
                 </div>
               </div>
 
+              <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold-deep bg-ice border border-gold/20 px-3 py-2 rounded-full w-full justify-center">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-gold-deep flex-shrink-0">
+                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                Stock in Karachi — 24-Hour Delivery for Karachi
+              </div>
+
               <button
                 type="submit"
                 disabled={submitting}
-                className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-gold text-charcoal font-bold text-sm tracking-[0.1em] uppercase px-6 py-4 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none"
+                className="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gold text-charcoal font-bold text-sm tracking-[0.1em] uppercase px-6 py-4 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none"
               >
-                {submitting ? "Placing order..." : "Place Order Now"}
+                {submitting ? "Placing order..." : "Order Now - Pay on Delivery"}
               </button>
 
               <div className="mt-4 text-[10px] text-center text-muted-foreground uppercase tracking-widest leading-relaxed">
