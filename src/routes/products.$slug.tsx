@@ -68,7 +68,14 @@ function ProductPage() {
         </nav>
       </div>
 
-      <section className="mx-auto max-w-7xl px-6 py-12 grid lg:grid-cols-2 gap-12 lg:gap-16">
+      {p.eidSpecial && (
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-4">
+          <EidBanner />
+          <EidCountdown />
+        </div>
+      )}
+
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-12 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div className="relative">
           <div className="relative aspect-square rounded-3xl overflow-hidden gradient-ice shadow-ice">
             {p.badge && (
