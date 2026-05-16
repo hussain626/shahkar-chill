@@ -157,6 +157,11 @@ function CheckoutPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-display text-base text-charcoal truncate">{product.name}</div>
+                  {bundle && (
+                    <div className="mt-1 inline-block text-[10px] font-bold uppercase tracking-widest bg-gold/20 text-gold-deep px-2 py-0.5 rounded">
+                      🎁 {bundle.label} · {deliveredQty} units
+                    </div>
+                  )}
                   <div className="mt-2 inline-flex items-center border border-border rounded-full">
                     <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="h-7 w-7 hover:text-gold transition-colors">−</button>
                     <span className="w-6 text-center text-sm">{qty}</span>
