@@ -33,10 +33,10 @@ export const Route = createFileRoute("/products/$slug")({
 function ProductPage() {
   const p = Route.useLoaderData();
   const related = products.filter((x) => x.slug !== p.slug).slice(0, 2);
-  const [selectedBundle, setSelectedBundle] = useState(
-    p.bundles?.find((b) => b.highlight)?.id ?? p.bundles?.[0]?.id
+  const [selectedBundle, setSelectedBundle] = useState<string | undefined>(
+    p.bundles?.find((b: Bundle) => b.highlight)?.id ?? p.bundles?.[0]?.id
   );
-  const activeBundle = p.bundles?.find((b) => b.id === selectedBundle);
+  const activeBundle = p.bundles?.find((b: Bundle) => b.id === selectedBundle);
   const checkoutSearch = activeBundle ? { bundle: activeBundle.id } : undefined;
 
   return (
