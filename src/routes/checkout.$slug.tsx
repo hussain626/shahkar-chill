@@ -10,6 +10,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const Route = createFileRoute("/checkout/$slug")({
   component: CheckoutPage,
+  validateSearch: (s: Record<string, unknown>) => ({
+    bundle: typeof s.bundle === "string" ? s.bundle : undefined,
+  }),
   loader: ({ params }) => {
     const product = getProduct(params.slug);
     if (!product) throw notFound();
