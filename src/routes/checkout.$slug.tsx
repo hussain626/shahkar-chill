@@ -67,6 +67,7 @@ function CheckoutPage() {
         product_slug: product.slug,
         product_name: bundle ? `${product.name} — ${bundle.label}` : product.name,
         price_at_purchase: unitPrice,
+        shipping,
         quantity: qty,
         customer_full_name: form.fullName,
         customer_phone: form.phone,
@@ -80,6 +81,14 @@ function CheckoutPage() {
       alert("Order failed. Please check your connection and try again.");
       setSubmitting(false);
     } else {
+      // Fire Meta Pixel Purchase conversion event
+      if (window.fbq) {
+        window.fbq('track', 'Purchase', {
+          value: total,
+          currency: 'PKR'
+        });
+      }
+      
       // Small timeout to ensure DB consistency before navigation
       setTimeout(() => {
         navigate({ to: "/order-confirmed/$orderId", params: { orderId: orderId } });

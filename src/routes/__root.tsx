@@ -7,8 +7,17 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+
+// Extend window to include fbq
+declare global {
+  interface Window {
+    fbq?: any;
+    _fbq?: any;
+  }
+}
 
 function NotFoundComponent() {
   return (
@@ -107,6 +116,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Scripts />
+        {/* Meta Pixel noscript fallback */}
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            src="https://www.facebook.com/tr?id=975877384818484&ev=PageView&noscript=1"
+            alt=""
+          />
+        </noscript>
       </body>
     </html>
   );
@@ -114,6 +133,33 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    // Initialize Meta Pixel
+    if (!window.fbq) {
+      const fbq = function () {
+        fbq.callMethod
+          ? fbq.callMethod.apply(fbq, arguments)
+          : fbq.queue.push(arguments);
+      };
+      window.fbq = fbq;
+      window._fbq = fbq;
+      fbq.push = fbq;
+      fbq.loaded = true;
+      fbq.version = '2.0';
+      fbq.queue = [];
+
+      // Load the script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+    }
+
+    // Initialize pixel
+    window.fbq('init', '975877384818484');
+    window.fbq('track', 'PageView');
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
