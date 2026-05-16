@@ -67,7 +67,6 @@ function CheckoutPage() {
         product_slug: product.slug,
         product_name: bundle ? `${product.name} — ${bundle.label}` : product.name,
         price_at_purchase: unitPrice,
-        shipping,
         quantity: qty,
         customer_full_name: form.fullName,
         customer_phone: form.phone,
