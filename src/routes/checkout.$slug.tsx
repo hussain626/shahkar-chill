@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { getProduct } from "@/lib/products";
+import { getProduct, type Bundle } from "@/lib/products";
 import { createClient } from '@supabase/supabase-js';
 
 // --- Supabase Configuration ---
