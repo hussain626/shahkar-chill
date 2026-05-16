@@ -24,7 +24,7 @@ function OrderConfirmedPage() {
           Shukriya for your <span className="italic text-gold">order</span>.
         </h1>
         <p className="mt-4 text-muted-foreground">
-          Our team will call you shortly to confirm. Your Mini AC will arrive in 3–5 days via Partner Shipping.
+          Our team will call you shortly to confirm. Your Order will arrive in 3–5 days via Partner Shipping.
         </p>
 
         <div className="mt-8 inline-flex flex-col items-center gap-1 bg-card border border-border rounded-2xl px-8 py-5 shadow-ice">

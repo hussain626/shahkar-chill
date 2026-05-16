@@ -45,7 +45,7 @@ function CheckoutPage() {
 
   const unitPrice = bundle ? bundle.price : product.price;
   const subtotal = unitPrice * qty;
-  const shipping = 190;
+  const shipping = 0;
   const total = subtotal + shipping;
   const deliveredQty = bundle ? bundle.deliveredQty * qty : qty;
 
@@ -67,6 +67,7 @@ function CheckoutPage() {
         product_slug: product.slug,
         product_name: bundle ? `${product.name} — ${bundle.label}` : product.name,
         price_at_purchase: unitPrice,
+        shipping,
         quantity: qty,
         customer_full_name: form.fullName,
         customer_phone: form.phone,
@@ -173,7 +174,7 @@ function CheckoutPage() {
 
               <div className="mt-6 space-y-2 text-sm border-t border-border pt-4">
                 <Row label="Subtotal" value={`Rs. ${subtotal.toLocaleString()}`} />
-                <Row label="Shipping" value={`Rs. ${shipping}`} />
+                <Row label="Shipping" value={shipping === 0 ? "Free" : `Rs. ${shipping}`} />
                 <div className="border-t border-border pt-3 flex justify-between items-baseline">
                   <span className="font-display text-lg">Total</span>
                   <span className="font-display text-2xl text-charcoal font-bold">Rs. {total.toLocaleString()}</span>

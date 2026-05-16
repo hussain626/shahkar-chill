@@ -40,10 +40,10 @@ function ProductPage() {
   const checkoutSearch = activeBundle ? { bundle: activeBundle.id } : undefined;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground pb-28 sm:pb-0">
       <div className="bg-charcoal text-frost text-xs sm:text-sm">
         <div className="mx-auto max-w-7xl px-4 py-2.5 text-center">
-          Beat the Heat: Delivery in 3–5 Days across Pakistan via Markaz Partner Shipping.
+          Beat the Heat: Delivery in 3–5 Days across Pakistan.
         </div>
       </div>
 
@@ -71,13 +71,12 @@ function ProductPage() {
       {p.eidSpecial && (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-4">
           <EidBanner />
-          <EidCountdown />
         </div>
       )}
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-12 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div className="relative">
-          <div className="relative aspect-square rounded-3xl overflow-hidden gradient-ice shadow-ice">
+          <div className="relative h-[280px] sm:aspect-square sm:h-auto rounded-3xl overflow-hidden gradient-ice shadow-ice">
             {p.badge && (
               <div className="absolute top-6 left-6 z-10 gradient-gold text-charcoal text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full shadow-gold">
                 {p.badge}
@@ -91,6 +90,11 @@ function ProductPage() {
         <div className="flex flex-col">
           <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">{p.tagline}</p>
           <h1 className="mt-4 font-display text-5xl lg:text-6xl text-charcoal leading-tight">{p.name}</h1>
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm sm:text-base">
+            <Stars n={Math.round((p.reviews?.reduce((sum, r) => sum + r.rating, 0) ?? 0) / (p.reviews?.length || 1))} />
+            <span className="font-semibold text-charcoal">{(p.reviews && p.reviews.length > 0 ? (p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length).toFixed(1) : "4.8")}/5</span>
+            <span className="text-muted-foreground">({p.reviews?.length ?? 0} reviews)</span>
+          </div>
 
           <div className="mt-6 flex items-center gap-2 text-sm">
             <span className="inline-flex h-2 w-2 rounded-full bg-destructive animate-pulse" />
@@ -162,12 +166,12 @@ function ProductPage() {
 
           <DeliveryInfo />
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-4 sm:block">
             <Link
               to="/checkout/$slug"
               params={{ slug: p.slug }}
               search={checkoutSearch as any}
-              className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform w-full sm:w-auto justify-center"
+              className="hidden sm:inline-flex group items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform w-full sm:w-auto justify-center"
             >
               {activeBundle ? `Order Now — Rs. ${activeBundle.price.toLocaleString()}` : "Order — Cash on Delivery"}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
@@ -194,6 +198,32 @@ function ProductPage() {
       </section>
 
       {p.reviews && p.reviews.length > 0 && <Reviews reviews={p.reviews} />}
+
+      <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-background/95 border-t border-border/80 backdrop-blur px-4 py-3">
+        <div className="flex items-center gap-3">
+          <Link
+            to="/checkout/$slug"
+            params={{ slug: p.slug }}
+            search={checkoutSearch as any}
+            className="flex-1 rounded-full bg-gold text-charcoal font-semibold uppercase tracking-[0.16em] px-4 py-3 text-sm text-center shadow-gold"
+          >
+            Buy Now
+          </Link>
+          <a
+            href={`https://wa.me/923332468178?text=${encodeURIComponent(`Hi Shahkar.store, I want to order ${p.name}`)}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg"
+            aria-label="Chat on WhatsApp"
+          >
+            <span className="sr-only">WhatsApp</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.672.149-.198.297-.767.967-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.173.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.672-1.612-.92-2.212-.242-.579-.487-.5-.672-.51l-.573-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.693.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347z" fill="currentColor" />
+              <path d="M20.52 3.48A11.77 11.77 0 0 0 12.01 0C5.383 0 .04 5.346.04 11.974c0 2.108.55 4.167 1.596 5.992L0 24l6.292-1.655A11.9 11.9 0 0 0 12.01 24c6.628 0 12.01-5.383 12.01-12.026 0-3.214-1.256-6.226-3.5-8.494zM12.01 21.59c-1.682 0-3.325-.454-4.758-1.312l-.34-.203-3.738.984.995-3.64-.222-.366A8.905 8.905 0 0 1 2.03 11.97c0-4.93 4.016-8.946 8.98-8.946 2.4 0 4.655.938 6.35 2.644a8.914 8.914 0 0 1 2.63 6.302c0 4.93-4.016 8.946-8.98 8.946z" fill="currentColor" />
+            </svg>
+          </a>
+        </div>
+      </div>
 
       <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-6">
@@ -231,26 +261,6 @@ function ProductPage() {
   );
 }
 
-// ---------- Eid components ----------
-
-function EidBanner() {
-  return (
-    <div className="rounded-2xl overflow-hidden bg-gradient-to-r from-[#7c2d12] via-[#9a3412] to-[#c2410c] text-white px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 shadow-lg">
-      <div className="min-w-0">
-        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-yellow-400 text-black inline-block px-2 py-0.5 rounded">
-          Eid ul Adha Special
-        </div>
-        <div className="mt-1.5 font-display text-base sm:text-xl font-bold leading-tight">
-          🎁 BUY 1 GET 1 FREE — Limited Eid Stock!
-        </div>
-      </div>
-      <div className="hidden sm:block text-right text-xs uppercase tracking-widest font-bold whitespace-nowrap">
-        Shop Now ➜
-      </div>
-    </div>
-  );
-}
-
 const SALE_EPOCH = new Date("2026-05-15T00:00:00Z").getTime();
 const SALE_CYCLE_MS = 3 * 24 * 60 * 60 * 1000;
 
@@ -274,7 +284,7 @@ function useEidCountdown() {
   return { days, hours, minutes, seconds };
 }
 
-function EidCountdown() {
+function EidBanner() {
   const { days, hours, minutes, seconds } = useEidCountdown();
   const cell = (n: number, label: string) => (
     <div className="flex flex-col items-center bg-charcoal text-white rounded-xl px-3 sm:px-5 py-2 sm:py-3 min-w-[58px]">
@@ -283,16 +293,22 @@ function EidCountdown() {
     </div>
   );
   return (
-    <div className="mt-3 rounded-2xl bg-ice/60 border border-gold/30 p-4 flex items-center justify-between gap-4 flex-wrap">
-      <div>
-        <div className="text-[10px] uppercase tracking-[0.25em] text-destructive font-bold">⏰ Sale Ends In</div>
-        <div className="text-xs text-muted-foreground mt-0.5">After timer, offer auto-resets — order now!</div>
-      </div>
-      <div className="flex gap-1.5 sm:gap-2">
-        {cell(days, "Days")}
-        {cell(hours, "Hrs")}
-        {cell(minutes, "Min")}
-        {cell(seconds, "Sec")}
+    <div className="rounded-2xl overflow-hidden bg-gradient-to-r from-[#7c2d12] via-[#9a3412] to-[#c2410c] text-white px-4 sm:px-6 py-4 shadow-lg">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <div className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-yellow-400 text-black inline-block px-2 py-0.5 rounded">
+            Eid ul Adha Special
+          </div>
+          <div className="mt-1.5 font-display text-base sm:text-xl font-bold leading-tight">
+            🎁 BUY 1 GET 1 FREE — Limited Eid Stock!
+          </div>
+        </div>
+        <div className="flex gap-2 flex-wrap justify-end">
+          {cell(days, "Days")}
+          {cell(hours, "Hrs")}
+          {cell(minutes, "Min")}
+          {cell(seconds, "Sec")}
+        </div>
       </div>
     </div>
   );
@@ -313,13 +329,13 @@ function DeliveryInfo() {
           <div className="font-display text-charcoal text-base sm:text-lg">
             {fmt(min)} – {fmt(max)} <span className="text-muted-foreground text-sm font-sans">(3–5 days)</span>
           </div>
-          <div className="text-xs text-muted-foreground mt-0.5">Flat Rs. 190 delivery · Cash on Delivery</div>
+          <div className="text-xs text-muted-foreground mt-0.5">Free delivery · Cash on Delivery</div>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border text-[10px] sm:text-xs text-center text-muted-foreground">
         <div>✓ 7-Day Warranty</div>
         <div>✓ COD Pakistan-wide</div>
-        <div>✓ Markaz Verified</div>
+        <div>✓ 3–5 Day Delivery</div>
       </div>
     </div>
   );
