@@ -126,13 +126,50 @@ function ProductPage() {
             ))}
           </ul>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          {p.bundles && p.bundles.length > 0 && (
+            <div className="mt-8 space-y-3">
+              <div className="text-[10px] uppercase tracking-[0.25em] text-gold-deep font-bold">Choose your Eid Bundle</div>
+              {p.bundles.map((b: Bundle) => {
+                const isActive = selectedBundle === b.id;
+                return (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setSelectedBundle(b.id)}
+                    className={`w-full text-left rounded-2xl border-2 p-4 transition-all ${
+                      isActive
+                        ? "border-gold bg-gold/10 shadow-gold"
+                        : "border-border hover:border-gold/50 bg-card"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-display text-lg text-charcoal">{b.label}</span>
+                          {b.highlight && (
+                            <span className="text-[9px] font-bold uppercase tracking-widest bg-destructive text-white px-2 py-0.5 rounded-full">Best Value</span>
+                          )}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">{b.sublabel}</div>
+                      </div>
+                      <div className="font-display text-xl text-charcoal whitespace-nowrap">Rs. {b.price.toLocaleString()}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <DeliveryInfo />
+
+          <div className="mt-8 flex flex-wrap gap-4">
             <Link
               to="/checkout/$slug"
               params={{ slug: p.slug }}
-              className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform"
+              search={checkoutSearch as any}
+              className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform w-full sm:w-auto justify-center"
             >
-              Order — Cash on Delivery
+              {activeBundle ? `Order Now — Rs. ${activeBundle.price.toLocaleString()}` : "Order — Cash on Delivery"}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
