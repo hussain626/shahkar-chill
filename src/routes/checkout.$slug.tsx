@@ -31,7 +31,7 @@ export const Route = createFileRoute("/checkout/$slug")({
 function CheckoutPage() {
   const product = Route.useLoaderData();
   const { bundle: bundleId } = Route.useSearch();
-  const bundle = product.bundles?.find((b) => b.id === bundleId);
+  const bundle = product.bundles?.find((b: Bundle) => b.id === bundleId);
   const navigate = useNavigate();
   const [qty, setQty] = useState(bundle ? 1 : 1);
   const [submitting, setSubmitting] = useState(false);
