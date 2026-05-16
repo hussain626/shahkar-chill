@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { getProduct } from "@/lib/products";
+import { getProduct, type Bundle } from "@/lib/products";
 import { createClient } from '@supabase/supabase-js';
 
 // --- Supabase Configuration ---
@@ -10,6 +10,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export const Route = createFileRoute("/checkout/$slug")({
   component: CheckoutPage,
+  validateSearch: (s: Record<string, unknown>) => ({
+    bundle: typeof s.bundle === "string" ? s.bundle : undefined,
+  }),
   loader: ({ params }) => {
     const product = getProduct(params.slug);
     if (!product) throw notFound();
@@ -27,8 +30,10 @@ export const Route = createFileRoute("/checkout/$slug")({
 
 function CheckoutPage() {
   const product = Route.useLoaderData();
+  const { bundle: bundleId } = Route.useSearch();
+  const bundle = product.bundles?.find((b: Bundle) => b.id === bundleId);
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(bundle ? 1 : 1);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
@@ -38,9 +43,11 @@ function CheckoutPage() {
     notes: "",
   });
 
-  const subtotal = product.price * qty;
+  const unitPrice = bundle ? bundle.price : product.price;
+  const subtotal = unitPrice * qty;
   const shipping = 190;
   const total = subtotal + shipping;
+  const deliveredQty = bundle ? bundle.deliveredQty * qty : qty;
 
   const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -51,19 +58,21 @@ function CheckoutPage() {
 
     const orderId = `SHK-${Date.now().toString(36).toUpperCase()}`;
 
+    const bundleNote = bundle ? `[Bundle: ${bundle.label} — ${bundle.deliveredQty} units per order] ` : "";
+
     const { error } = await supabase
       .from('orders')
       .insert([{
         id: orderId,
         product_slug: product.slug,
-        product_name: product.name,
-        price_at_purchase: product.price,
+        product_name: bundle ? `${product.name} — ${bundle.label}` : product.name,
+        price_at_purchase: unitPrice,
         quantity: qty,
         customer_full_name: form.fullName,
         customer_phone: form.phone,
         customer_city: form.city,
         customer_address: form.address,
-        customer_notes: form.notes
+        customer_notes: bundleNote + (form.notes || "")
       }]);
 
     if (error) {
@@ -148,6 +157,11 @@ function CheckoutPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-display text-base text-charcoal truncate">{product.name}</div>
+                  {bundle && (
+                    <div className="mt-1 inline-block text-[10px] font-bold uppercase tracking-widest bg-gold/20 text-gold-deep px-2 py-0.5 rounded">
+                      🎁 {bundle.label} · {deliveredQty} units
+                    </div>
+                  )}
                   <div className="mt-2 inline-flex items-center border border-border rounded-full">
                     <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="h-7 w-7 hover:text-gold transition-colors">−</button>
                     <span className="w-6 text-center text-sm">{qty}</span>
