@@ -58,19 +58,21 @@ function CheckoutPage() {
 
     const orderId = `SHK-${Date.now().toString(36).toUpperCase()}`;
 
+    const bundleNote = bundle ? `[Bundle: ${bundle.label} — ${bundle.deliveredQty} units per order] ` : "";
+
     const { error } = await supabase
       .from('orders')
       .insert([{
         id: orderId,
         product_slug: product.slug,
-        product_name: product.name,
-        price_at_purchase: product.price,
+        product_name: bundle ? `${product.name} — ${bundle.label}` : product.name,
+        price_at_purchase: unitPrice,
         quantity: qty,
         customer_full_name: form.fullName,
         customer_phone: form.phone,
         customer_city: form.city,
         customer_address: form.address,
-        customer_notes: form.notes
+        customer_notes: bundleNote + (form.notes || "")
       }]);
 
     if (error) {
