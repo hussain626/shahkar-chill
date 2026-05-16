@@ -193,6 +193,8 @@ function ProductPage() {
         </div>
       </section>
 
+      {p.reviews && p.reviews.length > 0 && <Reviews reviews={p.reviews} />}
+
       <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-6">
           <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">You may also like</p>
