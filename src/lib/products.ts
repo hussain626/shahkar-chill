@@ -113,6 +113,57 @@ export const products: Product[] = [
       { label: "Package includes", value: "1x Rechargeable Portable Fan" },
     ],
   },
+  {
+    slug: "bnb-rice-glow",
+    name: "B&B Rice Glow Bundle — Face Wash, Scrub & Mask (3-in-1)",
+    tagline: "Eid ul Adha Special — Buy 1 Get 1 FREE",
+    price: 1999,
+    oldPrice: 3998,
+    img: product4,
+    badge: "Eid Special",
+    stockLeft: 12,
+    description:
+      "Pakistan ki #1 rice glow routine — ab Eid ul Adha pe DOUBLE. B&B Brightening Rice Face Wash, Rice Scrub aur Rice Glow Mask — ek complete 3-in-1 facial kit, ghar pe parlour-jaisa nikhaar. Made for Pakistani skin, paraben & sulphate free, dermatologically tested. Limited Eid stock — order karo aur free bundle apna karo!",
+    features: [
+      "3-in-1 Complete Facial Kit — Face Wash + Scrub + Mask",
+      "Ultra Whitening & Brightening Formula for instant glow",
+      "Deep Cleansing + Gentle Exfoliation — removes dirt, oil & dead skin",
+      "Improves skin tone & texture — suitable for all Pakistani skin types",
+      "Paraben & Sulphate Free — dermatologically tested",
+      "7-Day easy return guarantee",
+    ],
+    specs: [
+      { label: "Brand", value: "B&B (Body & Body)" },
+      { label: "Type", value: "3-in-1 Facial Kit" },
+      { label: "Ideal Usage", value: "All Skin Types" },
+      { label: "Box Content", value: "Face Wash + Scrub + Mask" },
+    ],
+    eidSpecial: true,
+    bundles: [
+      {
+        id: "b1",
+        label: "Buy 1 Get 1 FREE",
+        sublabel: "2 Bundles — Save Rs. 1,999",
+        price: 1999,
+        deliveredQty: 2,
+      },
+      {
+        id: "b2",
+        label: "Buy 2 Get 2 FREE",
+        sublabel: "4 Bundles — All Inclusive · Save Rs. 4,497",
+        price: 3499,
+        deliveredQty: 4,
+        highlight: true,
+      },
+    ],
+    reviews: [
+      { name: "Ayesha Khan", city: "Karachi", rating: 5, text: "Bohat zabardast product hai! Skin instantly glow karne lagti hai. Buy 1 Get 1 offer ne to dil khush kar diya 💛", date: "2 days ago" },
+      { name: "Hira Saleem", city: "Lahore", rating: 5, text: "Eid se pehle perfect order. Quality original hai aur delivery bhi 3 din mein mil gayi. Highly recommended!", date: "5 days ago" },
+      { name: "Fatima Raza", city: "Islamabad", rating: 4, text: "Scrub aur mask dono effective hain. Skin texture pehle se kafi better lag raha hai.", date: "1 week ago" },
+      { name: "Mehwish Tariq", city: "Rawalpindi", rating: 5, text: "Mein ne 2+2 wala bundle liya — paisa wasool! Sab dostoun ko gift kar rahi hoon Eid pe.", date: "1 week ago" },
+      { name: "Zainab Ahmed", city: "Multan", rating: 5, text: "B&B ka rice glow kit Pakistani skin ke liye banaya gaya lagta hai. Bohat halka aur refreshing hai.", date: "2 weeks ago" },
+    ],
+  },
 ];
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
