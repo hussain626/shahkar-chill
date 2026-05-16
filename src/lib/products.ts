@@ -1,6 +1,24 @@
 import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
+import product4 from "@/assets/product-4.jpg";
+
+export type Bundle = {
+  id: string;
+  label: string;
+  sublabel: string;
+  price: number;
+  deliveredQty: number;
+  highlight?: boolean;
+};
+
+export type Review = {
+  name: string;
+  city: string;
+  rating: number;
+  text: string;
+  date: string;
+};
 
 export type Product = {
   slug: string;
@@ -14,6 +32,9 @@ export type Product = {
   description: string;
   features: string[];
   specs: { label: string; value: string }[];
+  bundles?: Bundle[];
+  eidSpecial?: boolean;
+  reviews?: Review[];
 };
 
 export const products: Product[] = [
