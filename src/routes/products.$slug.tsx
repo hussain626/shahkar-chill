@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { getProduct, products, type Bundle } from "@/lib/products";
+import { getProduct, products, type Bundle, type Review } from "@/lib/products";
 
 export const Route = createFileRoute("/products/$slug")({
   component: ProductPage,
