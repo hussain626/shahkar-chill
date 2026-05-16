@@ -30,8 +30,10 @@ export const Route = createFileRoute("/checkout/$slug")({
 
 function CheckoutPage() {
   const product = Route.useLoaderData();
+  const { bundle: bundleId } = Route.useSearch();
+  const bundle = product.bundles?.find((b) => b.id === bundleId);
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(bundle ? 1 : 1);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
@@ -41,9 +43,11 @@ function CheckoutPage() {
     notes: "",
   });
 
-  const subtotal = product.price * qty;
+  const unitPrice = bundle ? bundle.price : product.price;
+  const subtotal = unitPrice * qty;
   const shipping = 190;
   const total = subtotal + shipping;
+  const deliveredQty = bundle ? bundle.deliveredQty * qty : qty;
 
   const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
