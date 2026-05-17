@@ -1,28 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImg from "@/assets/hero-mini-ac.jpg";
 import logo from "@/assets/logo.png";
 import { products, type Product } from "@/lib/products";
-import { LogOut } from "lucide-react";
+import { Snowflake, Laptop, Sparkles, ShieldCheck, Truck, Lightbulb, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Shahkar" },
+      { title: "Shahkar — Har Maslay Ka Hal" },
       {
         name: "description",
         content:
-          "Premium USB-powered Mini ACs delivered across Pakistan. Low electricity, high performance. Cash on Delivery",
+          "Shahkar is your problem-solving store. Smart gadgets and clever solutions designed to make daily life easier, cooler, and better. Cash on Delivery across Pakistan.",
       },
-      { property: "og:title", content: "Shahkar.store — Premium Cooling Solutions" },
-      { property: "og:description", content: "Sukoon ab har jagah. USB Mini ACs, perfect for load-shedding & solar." },
+      { property: "og:title", content: "Shahkar — Har Maslay Ka Hal" },
+      { property: "og:description", content: "Smart gadgets & clever solutions for everyday life. Delivered across Pakistan, Cash on Delivery." },
     ],
-    // Add this links array here
-    links: [
-      { rel: "icon", href: "/favicon.ico" },
-      // Optional: Add apple-touch-icon if you have a larger png
-      // { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-    ],
+    links: [{ rel: "icon", href: "/favicon.ico" }],
   }),
 });
 
@@ -30,8 +24,8 @@ function NoticeBar() {
   return (
     <div className="bg-charcoal text-frost text-xs sm:text-sm tracking-wide">
       <div className="mx-auto max-w-7xl px-4 py-2.5 text-center">
-        <span className="opacity-90">Beat the Heat: </span>
-        <span className="font-medium">Delivery in 3–5 Days across Pakistan.</span>
+        <span className="opacity-90">Trusted across Pakistan: </span>
+        <span className="font-medium">Cash on Delivery • 3–5 Day Shipping • 7-Day Warranty</span>
       </div>
     </div>
   );
@@ -41,29 +35,22 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/60">
       <NoticeBar />
-      <div className="mx-auto max-w-7xl px-6 py-5 grid grid-cols-3 items-center">
+      <div className="mx-auto max-w-7xl px-6 py-4 grid grid-cols-3 items-center">
         <nav className="hidden md:flex gap-7 text-sm font-medium text-foreground/80">
           <Link to="/" className="hover:text-gold transition-colors">Home</Link>
-          <a href="#collection" className="hover:text-gold transition-colors">Our Collection</a>
+          <a href="#solutions" className="hover:text-gold transition-colors">Solutions</a>
         </nav>
 
         <div className="text-center col-start-2">
           <a href="/" className="inline-block">
-             <img
-              src={logo}
-              alt="Shahkar Mini AC with cool mist and ice crystals"
-              width={100}
-              height={100}
-              
-            />
-            <span className="block mt-1 text-[10px] tracking-[0.4em] text-muted-foreground uppercase">
-              .store
-            </span>
+            <img src={logo} alt="Shahkar" width={84} height={84} className="mx-auto" />
+            <span className="block mt-1 text-[10px] tracking-[0.4em] text-muted-foreground uppercase">.store</span>
           </a>
         </div>
 
         <nav className="hidden md:flex gap-7 text-sm font-medium text-foreground/80 justify-end">
-          <a href="#contact" className="hover:text-gold transition-colors">Contact Us</a>
+          <a href="#why" className="hover:text-gold transition-colors">Why Shahkar</a>
+          <a href="#contact" className="hover:text-gold transition-colors">Contact</a>
         </nav>
       </div>
       <div className="gold-rule" />
@@ -79,126 +66,182 @@ function Hero() {
         <div className="absolute -bottom-40 -right-20 h-[28rem] w-[28rem] rounded-full bg-gold/10 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 pt-16 pb-20 lg:pt-24 lg:pb-28 grid lg:grid-cols-2 gap-12 items-center">
-        <div className="animate-fade-up">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-card/60 backdrop-blur px-4 py-1.5 text-xs tracking-widest uppercase text-gold-deep">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
-            Summer Collection 2026
-          </div>
-
-          <h1 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-charcoal">
-            Garmi ka{" "}
-            <span className="italic text-shimmer-gold">Shahkar</span>
-            <br />
-            <span className="italic font-light text-foreground/80">hal.</span>
-          </h1>
-
-          <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
-            Experience instant cooling with our USB-powered Mini ACs. Low electricity,
-            high performance — engineered for Pakistani summers.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-4 items-center">
-            <a
-              href="#collection"
-              className="group relative inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-9 py-5 rounded-full shadow-gold hover:scale-[1.02] transition-transform"
-            >
-              Shop the Collection
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="group-hover:translate-x-1 transition-transform">
-                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <div className="flex -space-x-2">
-                {[0,1,2].map(i => (
-                  <div key={i} className="h-7 w-7 rounded-full border-2 border-background bg-gradient-to-br from-ice to-gold/30" />
-                ))}
-              </div>
-              <span><span className="text-foreground font-semibold">2,400+</span> happy customers</span>
-            </div>
-          </div>
-
-          <div className="mt-12 grid grid-cols-3 gap-6 max-w-md">
-            {[
-              { k: "3-5", v: "Days Delivery" },
-              { k: "COD", v: "Cash on Delivery" },
-              { k: "7", v: "Day Warranty" },
-            ].map((s) => (
-              <div key={s.v}>
-                <div className="font-display text-3xl text-gold-deep">{s.k}</div>
-                <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{s.v}</div>
-              </div>
-            ))}
-          </div>
+      <div className="relative mx-auto max-w-5xl px-6 pt-16 pb-16 lg:pt-24 lg:pb-20 text-center animate-fade-up">
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-card/60 backdrop-blur px-4 py-1.5 text-xs tracking-widest uppercase text-gold-deep">
+          <Lightbulb className="h-3.5 w-3.5" />
+          Problem-Solving Store
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 bg-ice/50 blur-3xl rounded-full animate-mist" />
-          <div className="relative animate-float">
-            <img
-              src={heroImg}
-              alt="Shahkar Mini AC with cool mist and ice crystals"
-              width={1536}
-              height={1536}
-              className="relative z-10 w-full max-w-xl mx-auto drop-shadow-2xl"
-            />
-          </div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-8 w-3/4 bg-charcoal/20 blur-2xl rounded-full" />
+        <h1 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-charcoal">
+          Shahkar: <span className="italic text-shimmer-gold">Har Maslay</span>
+          <br />
+          <span className="italic font-light text-foreground/80">Ka Hal.</span>
+        </h1>
+
+        <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Smart gadgets and clever solutions designed to make your daily life
+          easier, cooler, and better.
+        </p>
+
+        <div className="mt-10 flex flex-wrap gap-4 items-center justify-center">
+          <a
+            href="#solutions"
+            className="group inline-flex items-center gap-3 gradient-gold text-charcoal font-semibold text-sm tracking-[0.18em] uppercase px-8 py-4 rounded-full shadow-gold hover:scale-[1.02] transition-transform"
+          >
+            Browse Solutions
+            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <a
+            href="#featured"
+            className="inline-flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-charcoal/80 hover:text-gold-deep px-4 py-4"
+          >
+            Featured Products →
+          </a>
+        </div>
+
+        <div className="mt-12 grid grid-cols-3 gap-4 sm:gap-6 max-w-xl mx-auto">
+          {[
+            { k: "COD", v: "Across Pakistan" },
+            { k: "3–5", v: "Day Delivery" },
+            { k: "2,400+", v: "Happy Customers" },
+          ].map((s) => (
+            <div key={s.v}>
+              <div className="font-display text-2xl sm:text-3xl text-gold-deep">{s.k}</div>
+              <div className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground mt-1">{s.v}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function Features() {
-  const features = [
+type Category = {
+  title: string;
+  tagline: string;
+  problem: string;
+  icon: React.ReactNode;
+  cta: string;
+  href: string;
+  available: boolean;
+};
+
+const categories: Category[] = [
+  {
+    title: "Beat the Heat",
+    tagline: "Coolers & Fans",
+    problem: "Garmi & load-shedding got you down?",
+    icon: <Snowflake className="h-7 w-7" />,
+    cta: "Shop Coolers",
+    href: "#featured",
+    available: true,
+  },
+  {
+    title: "Smart Home Office",
+    tagline: "Work-from-home gear",
+    problem: "Upgrade your desk, lighting & focus.",
+    icon: <Laptop className="h-7 w-7" />,
+    cta: "Coming Soon",
+    href: "#",
+    available: false,
+  },
+  {
+    title: "Everyday Essentials",
+    tagline: "Clever daily helpers",
+    problem: "Little gadgets, big life upgrades.",
+    icon: <Sparkles className="h-7 w-7" />,
+    cta: "Coming Soon",
+    href: "#",
+    available: false,
+  },
+];
+
+function Solutions() {
+  return (
+    <section id="solutions" className="relative py-20 sm:py-24 bg-background">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">Shop by Problem</p>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl text-charcoal">
+            Find the <span className="italic text-gold">solution</span> you need.
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            Every category is hand-picked to solve a real, everyday Pakistani problem.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-5">
+          {categories.map((c) => (
+            <a
+              key={c.title}
+              href={c.href}
+              className={`group relative bg-card rounded-3xl p-7 border border-border/60 transition-all duration-500 shadow-ice ${
+                c.available ? "hover:border-gold/50 hover:-translate-y-1" : "opacity-80"
+              }`}
+            >
+              {!c.available && (
+                <span className="absolute top-5 right-5 text-[10px] tracking-widest uppercase bg-ice text-gold-deep px-2.5 py-1 rounded-full font-semibold">
+                  Soon
+                </span>
+              )}
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-ice text-gold-deep group-hover:bg-gold group-hover:text-charcoal transition-colors">
+                {c.icon}
+              </div>
+              <h3 className="mt-5 font-display text-2xl text-charcoal">{c.title}</h3>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{c.tagline}</p>
+              <p className="mt-4 text-foreground/75 leading-relaxed">{c.problem}</p>
+              <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-gold-deep">
+                {c.cta}
+                {c.available && <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyShahkar() {
+  const points = [
     {
-      title: "Bill Saver",
-      desc: "Runs on less power than a lightbulb. Cool air without the cooling bill.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
-      ),
+      title: "Quality Selection",
+      desc: "We test every product ourselves. Only the ones that actually work make it to the store.",
+      icon: <ShieldCheck className="h-7 w-7" />,
     },
     {
-      title: "UPS / Solar Ready",
-      desc: "Perfect companion for load-shedding hours. Plugs into any USB power.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7"><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-      ),
+      title: "Problem-Solving Focus",
+      desc: "We don't sell gadgets — we sell solutions to the small frustrations of daily life.",
+      icon: <Lightbulb className="h-7 w-7" />,
     },
     {
-      title: "Truly Portable",
-      desc: "From your office desk to your bedside. Cooling that follows you everywhere.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7"><rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M11 18h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-      ),
+      title: "Cash on Delivery",
+      desc: "Pay when it arrives. No advance, no risk. Trusted by thousands across Pakistan.",
+      icon: <Truck className="h-7 w-7" />,
     },
   ];
 
   return (
-    <section className="relative py-24 bg-background">
+    <section id="why" className="relative py-20 sm:py-24 gradient-ice">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-14">
           <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">Why Shahkar</p>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl text-charcoal">
-            Sukoon ab <span className="italic text-gold">har jagah</span>.
+            A store you can <span className="italic text-gold">actually trust</span>.
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Three reasons our customers across Karachi, Lahore & Islamabad keep coming back.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {features.map((f) => (
+          {points.map((p) => (
             <div
-              key={f.title}
-              className="group relative bg-card rounded-3xl p-8 border border-border/60 hover:border-gold/50 transition-all duration-500 hover:-translate-y-1 shadow-ice"
+              key={p.title}
+              className="bg-card rounded-3xl p-8 border border-border/60 hover:border-gold/50 transition-all duration-500 hover:-translate-y-1 shadow-ice"
             >
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-ice text-gold-deep group-hover:bg-gold group-hover:text-charcoal transition-colors">
-                {f.icon}
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-ice text-gold-deep">
+                {p.icon}
               </div>
-              <h3 className="mt-6 font-display text-2xl text-charcoal">{f.title}</h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">{f.desc}</p>
+              <h3 className="mt-5 font-display text-2xl text-charcoal">{p.title}</h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -232,7 +275,7 @@ function ProductCard({ p }: { p: Product }) {
           <div className="mt-3 flex items-center gap-2">
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />
             <span className="text-[11px] font-bold uppercase tracking-widest text-destructive">
-              Only {p.stockLeft} pieces left!
+              Only {p.stockLeft} left!
             </span>
           </div>
         )}
@@ -246,7 +289,7 @@ function ProductCard({ p }: { p: Product }) {
             </div>
           </div>
           <span className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-charcoal text-frost group-hover:bg-gold group-hover:text-charcoal transition-colors">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <ArrowRight className="h-4 w-4" />
           </span>
         </div>
       </div>
@@ -254,42 +297,26 @@ function ProductCard({ p }: { p: Product }) {
   );
 }
 
-function Collection() {
+function FeaturedSolutions() {
   return (
-    <section id="collection" className="relative py-24 gradient-ice">
+    <section id="featured" className="relative py-20 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
+        <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
           <div>
-            <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">The Collection</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">Featured Solutions</p>
             <h2 className="mt-3 font-display text-4xl sm:text-5xl text-charcoal max-w-xl">
-              Engineered for the <em className="text-gold not-italic">Pakistani</em> summer.
+              Beat the heat <em className="text-gold not-italic">this summer</em>.
             </h2>
           </div>
           <p className="text-muted-foreground max-w-md">
-            Each piece is hand-tested, packaged with care, and delivered to your doorstep —
-            no advance payment required.
+            Our most-loved category. Portable USB coolers & fans — perfect for load-shedding,
+            solar setups, and personal cooling anywhere.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {products.map((p) => <ProductCard key={p.name} p={p} />)}
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Promise() {
-  return (
-    <section className="py-24 bg-background">
-      <div className="mx-auto max-w-5xl px-6 text-center">
-        <div className="gold-rule w-24 mx-auto mb-8" />
-        <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">The Shahkar Promise</p>
-        <blockquote className="mt-6 font-display text-3xl sm:text-4xl lg:text-5xl text-charcoal leading-tight italic">
-          "We don't sell plastic gadgets. We sell <span className="text-gold">cool sukoon</span> —
-          delivered to every corner of Pakistan, with the trust of cash on delivery."
-        </blockquote>
-        <p className="mt-8 text-sm tracking-widest uppercase text-muted-foreground">— The Shahkar Team</p>
       </div>
     </section>
   );
@@ -298,20 +325,19 @@ function Promise() {
 function Footer() {
   return (
     <footer id="contact" className="bg-charcoal text-frost">
-      <div className="mx-auto max-w-7xl px-6 py-16 grid md:grid-cols-4 gap-10">
+      <div className="mx-auto max-w-7xl px-6 py-14 grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
           <span className="font-display text-3xl text-shimmer-gold font-semibold">Shahkar</span>
           <p className="mt-4 text-frost/70 max-w-sm leading-relaxed">
-            Premium cooling solutions for modern Pakistani homes. Engineered with care,
-            delivered with trust.
+            Your problem-solving store. Smart gadgets and clever solutions, delivered with trust.
           </p>
         </div>
         <div>
           <h4 className="text-sm uppercase tracking-widest text-gold mb-4">Shop</h4>
           <ul className="space-y-2 text-sm text-frost/70">
-            <li><a href="#collection" className="hover:text-gold">Collection</a></li>
-            <li><a href="#track" className="hover:text-gold">Track Order</a></li>
-            <li><a href="#" className="hover:text-gold">Returns</a></li>
+            <li><a href="#solutions" className="hover:text-gold">Solutions</a></li>
+            <li><a href="#featured" className="hover:text-gold">Featured</a></li>
+            <li><a href="#why" className="hover:text-gold">Why Shahkar</a></li>
           </ul>
         </div>
         <div>
@@ -319,14 +345,13 @@ function Footer() {
           <ul className="space-y-2 text-sm text-frost/70">
             <li>WhatsApp: 03332468178</li>
             <li>shahkar@gmail.com</li>
-            <li></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-frost/10">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-wrap items-center justify-between gap-4 text-xs text-frost/50">
           <p>© 2026 Shahkar.store — All rights reserved.</p>
-          <p className="italic font-display text-base text-frost/70">Sukoon ab har jagah.</p>
+          <p className="italic font-display text-base text-frost/70">Har maslay ka hal.</p>
         </div>
       </div>
     </footer>
@@ -338,9 +363,9 @@ function Index() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <Hero />
-      <Features />
-      <Collection />
-      <Promise />
+      <Solutions />
+      <WhyShahkar />
+      <FeaturedSolutions />
       <Footer />
     </main>
   );
