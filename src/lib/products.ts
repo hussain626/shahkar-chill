@@ -2,6 +2,13 @@ import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
 import product4 from "@/assets/product-4.jpg";
+import rev1 from "@/assets/review1.jpg";
+import rev2 from "@/assets/review2.jpg";
+import no from "@/assets/no.jpg";
+import rev3 from "@/assets/review3.jpg";
+import product5 from "@/assets/product-5.jpg"
+import prod51 from "@/assets/prod5-1.jpg"
+import prod52 from "@/assets/prod5-2.jpg"
 
 export type Bundle = {
   id: string;
@@ -18,6 +25,7 @@ export type Review = {
   rating: number;
   text: string;
   date: string;
+  image: string;
 };
 
 export type Product = {
@@ -26,7 +34,8 @@ export type Product = {
   tagline: string;
   price: number;
   oldPrice?: number;
-  img: string;
+  img: string;           // Keeps fallback compatibility for list pages
+  images?: string[];     // Array of image URLs for the carousel
   badge?: string;
   stockLeft: number;
   description: string;
@@ -157,11 +166,49 @@ export const products: Product[] = [
       },
     ],
     reviews: [
-      { name: "Ayesha Khan", city: "Karachi", rating: 5, text: "Bohat zabardast product hai! Skin instantly glow karne lagti hai. Buy 1 Get 1 offer ne to dil khush kar diya 💛", date: "2 days ago" },
-      { name: "Hira Saleem", city: "Lahore", rating: 5, text: "Eid se pehle perfect order. Quality original hai aur delivery bhi 3 din mein mil gayi. Highly recommended!", date: "5 days ago" },
-      { name: "Fatima Raza", city: "Islamabad", rating: 4, text: "Scrub aur mask dono effective hain. Skin texture pehle se kafi better lag raha hai.", date: "1 week ago" },
-      { name: "Mehwish Tariq", city: "Rawalpindi", rating: 5, text: "Mein ne 2+2 wala bundle liya — paisa wasool! Sab dostoun ko gift kar rahi hoon Eid pe.", date: "1 week ago" },
-      { name: "Zainab Ahmed", city: "Multan", rating: 5, text: "B&B ka rice glow kit Pakistani skin ke liye banaya gaya lagta hai. Bohat halka aur refreshing hai.", date: "2 weeks ago" },
+      { name: "Ayesha Khan", city: "Karachi", rating: 5, text: "Bohat zabardast product hai! Skin instantly glow karne lagti hai. Buy 1 Get 1 offer ne to dil khush kar diya 💛", date: "2 days ago", image: product1 },
+      { name: "Hira Saleem", city: "Lahore", rating: 5, text: "Eid se pehle perfect order. Quality original hai aur delivery bhi 3 din mein mil gayi. Highly recommended!", date: "5 days ago", image: product1 },
+      { name: "Fatima Raza", city: "Islamabad", rating: 4, text: "Scrub aur mask dono effective hain. Skin texture pehle se kafi better lag raha hai.", date: "1 week ago" , image: product1},
+      { name: "Mehwish Tariq", city: "Rawalpindi", rating: 5, text: "Mein ne 2+2 wala bundle liya — paisa wasool! Sab dostoun ko gift kar rahi hoon Eid pe.", date: "1 week ago", image: product1 },
+      { name: "Zainab Ahmed", city: "Multan", rating: 5, text: "B&B ka rice glow kit Pakistani skin ke liye banaya gaya lagta hai. Bohat halka aur refreshing hai.", date: "2 weeks ago", image: product1 },
+    ],
+  },
+   {
+    slug: "scrub-gun",
+    name: "Kitchen Cleaning Brush 5 in 1 – Rechargeable Electric Scrubber",
+    tagline: "5 in 1 - for Kitchen & Bathroom and Scrubbers for for Dishes, Stove, Pots & Pans",
+    price: 1799,
+    oldPrice: 3000,
+    img: product5,
+    images: [product5, prod51, prod52],
+    badge: "Discount",
+    stockLeft: 12,
+    description:
+      "This sleek, rechargeable electric cleaning brush is the perfect solution for tough grime in your home, kitchen, bathroom, or pool. Designed for effortless cleaning, it’s ideal for busy households and those who value convenience without compromise. Its compact, stylish design makes it easy to store and carry, while the powerful electric head delivers deep cleaning without the hassle of manual scrubbing. The brush is built to last with a durable, high-quality material that withstands daily use. Its rechargeable battery ensures long-term performance, so you won’t have to replace it often. The soft, bristle head gently cleans surfaces while being gentle on delicate items. It’s perfect for cleaning tiles, glass, stainless steel, and more, making it a versatile tool for any household. - Rechargeable battery for long-lasting use - Multi-functional design for kitchen, bathroom, and pool cleaning - Soft, bristle head for gentle yet effective cleaning - Compact and stylish design for easy storage - Durable construction for everyday use",
+    features: [
+      "Power Source: Rechargeable Lithium-ion Battery",
+      "Battery Capacity: Approx. 1500 – 2000mAh",
+      "Charging Method: USB Charging (Type-C or Micro USB)",
+      "Charging Time: 2 to 3 Hours",
+      "Usage Time: 70 – 90 Minutes (Depending on Use)",
+      "Motor Speed: Approx. 300 – 400 RPM",
+      "Water Resistance: IPX7 Rated (Waterproof Design)",
+      "Design: Ergonomic & Lightweight, Anti-Slip Handle",
+      "Dimensions: Approx. 28 × 15.5 × 10.5 cm",
+    ],
+    specs: [
+      { label: "Water Resistence", value: "IPX7 Rated" },
+      { label: "Type", value: "5-in-1 Electrical Handheld Brush" },
+      { label: "Motor Speed", value: "300-400 RPM" },
+      { label: "Box Content", value: "1x Handheld Brush 4x Brush Heads for different usage " },
+    ],
+    eidSpecial: false,
+    reviews: [
+      { name: "Ayesha Khan", city: "Karachi", rating: 5, text: "Brushes alag alag type ke kaam ke liye useful hain, design bhi smart hai. Highly satisfied", date: "2 days ago", image: rev1 },
+      { name: "Hira Saleem", city: "Lahore", rating: 5, text: "Cleaning brush bohat powerful hai, plates aur sink easily clean ho jaate hain.", date: "5 days ago", image: rev2 },
+      { name: "Fatima Raza", city: "Islamabad", rating: 4, text: "Delivery fast thi aur product original nikla. Kitchen ke liye must-have item hai.", date: "1 week ago", image: no},
+      { name: "Mehwish Tariq", city: "Rawalpindi", rating: 5, text: "Very nice brush kitchen k liye,,, easy to clean easy to use he,,All time best", date: "1 week ago", image:no  },
+      { name: "Zainab Ahmed", city: "Multan", rating: 5, text: "Rechargeable feature bohat convenient hai, daily use mein perfect chez hai. Quality good hai.", date: "2 weeks ago", image: rev3 },
     ],
   },
 ];

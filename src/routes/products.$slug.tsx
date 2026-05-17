@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getProduct, products, type Bundle, type Review } from "@/lib/products";
+import { ProductImageMedia } from "@/components/carasoule";
 
 export const Route = createFileRoute("/products/$slug")({
   component: ProductPage,
@@ -77,13 +78,7 @@ function ProductPage() {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-12 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div className="relative">
           <div className="relative h-[280px] sm:aspect-square sm:h-auto rounded-3xl overflow-hidden gradient-ice shadow-ice">
-            {p.badge && (
-              <div className="absolute top-6 left-6 z-10 gradient-gold text-charcoal text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full shadow-gold">
-                {p.badge}
-              </div>
-            )}
-            <img src={p.img} alt={p.name} width={1024} height={1024}
-                 className="h-full w-full object-cover" />
+           <ProductImageMedia product={p} />
           </div>
         </div>
 
@@ -318,8 +313,8 @@ function DeliveryInfo() {
   const fmt = (d: Date) =>
     d.toLocaleDateString("en-PK", { day: "numeric", month: "short" });
   const today = new Date();
-  const min = new Date(today); min.setDate(today.getDate() + 3);
-  const max = new Date(today); max.setDate(today.getDate() + 5);
+  const min = new Date(today); min.setDate(today.getDate() + 7);
+  const max = new Date(today); max.setDate(today.getDate() + 13);
   return (
     <div className="mt-8 rounded-2xl border border-border bg-card p-4 sm:p-5 space-y-3">
       <div className="flex items-start gap-3">
@@ -327,7 +322,7 @@ function DeliveryInfo() {
         <div className="min-w-0">
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Delivery Estimate</div>
           <div className="font-display text-charcoal text-base sm:text-lg">
-            {fmt(min)} – {fmt(max)} <span className="text-muted-foreground text-sm font-sans">(3–5 days)</span>
+            {fmt(min)} – {fmt(max)} <span className="text-muted-foreground text-sm font-sans">(7-14 days)</span>
           </div>
           <div className="text-xs text-muted-foreground mt-0.5">Free delivery · Cash on Delivery</div>
         </div>
@@ -366,23 +361,38 @@ function Reviews({ reviews }: { reviews: Review[] }) {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {reviews.map((r, i) => (
-            <div key={i} className="bg-card border border-border rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <Stars n={r.rating} />
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{r.date}</span>
-              </div>
-              <p className="mt-3 text-sm text-foreground/90 leading-relaxed">"{r.text}"</p>
-              <div className="mt-4 flex items-center gap-3 border-t border-border pt-3">
-                <div className="h-9 w-9 rounded-full bg-gradient-to-br from-gold/40 to-ice flex items-center justify-center text-charcoal font-bold text-sm">
-                  {r.name.charAt(0)}
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-charcoal">{r.name}</div>
-                  <div className="text-[11px] text-muted-foreground">✓ Verified · {r.city}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+  <div key={i} className="bg-card border border-border rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+    <div>
+      <div className="flex items-center justify-between">
+        <Stars n={r.rating} />
+        <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{r.date}</span>
+      </div>
+      
+      <p className="mt-3 text-sm text-foreground/90 leading-relaxed">{r.text}</p>
+      
+      {/* Review Image (Renders only if r.image exists) */}
+      {r.image && (
+        <div className="mt-3 overflow-hidden rounded-xl border border-border/60 max-w-[120px] aspect-square bg-muted">
+          <img 
+            src={r.image} 
+            alt={`Review by ${r.name}`} 
+            className="h-full w-full object-cover hover:scale-105 transition-transform duration-200 ease-in-out cursor-zoom-in"
+          />
+        </div>
+      )}
+    </div>
+
+    <div className="mt-4 flex items-center gap-3 border-t border-border pt-3">
+      <div className="h-9 w-9 rounded-full bg-gradient-to-br from-gold/40 to-ice flex items-center justify-center text-charcoal font-bold text-sm">
+        {r.name.charAt(0)}
+      </div>
+      <div>
+        <div className="text-sm font-semibold text-charcoal">{r.name}</div>
+        <div className="text-[11px] text-muted-foreground">✓ Verified · {r.city}</div>
+      </div>
+    </div>
+  </div>
+))}
         </div>
       </div>
     </section>
