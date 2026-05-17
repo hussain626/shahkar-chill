@@ -91,8 +91,8 @@ function ProductPage() {
           <p className="text-xs tracking-[0.3em] uppercase text-gold-deep font-medium">{p.tagline}</p>
           <h1 className="mt-4 font-display text-5xl lg:text-6xl text-charcoal leading-tight">{p.name}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm sm:text-base">
-            <Stars n={Math.round((p.reviews?.reduce((sum, r) => sum + r.rating, 0) ?? 0) / (p.reviews?.length || 1))} />
-            <span className="font-semibold text-charcoal">{(p.reviews && p.reviews.length > 0 ? (p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length).toFixed(1) : "4.8")}/5</span>
+            <Stars n={Math.round((p.reviews?.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) ?? 0) / (p.reviews?.length || 1))} />
+            <span className="font-semibold text-charcoal">{(p.reviews && p.reviews.length > 0 ? (p.reviews.reduce((s: number, r: { rating: number }) => s + r.rating, 0) / p.reviews.length).toFixed(1) : "4.8")}/5</span>
             <span className="text-muted-foreground">({p.reviews?.length ?? 0} reviews)</span>
           </div>
 
